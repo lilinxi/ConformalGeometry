@@ -305,7 +305,7 @@ void CDynamicMesh<CVertex,CEdge,CFace,CHalfEdge>::swapEdge( CEdge * edge )
   CVertex * wb = (pv[1]->id() < pv[3]->id() )?pv[1]:pv[3];
   std::list<CEdge*> & wedges = (std::list<CEdge*> &) wb->edges();
 
-  for( std::list<CEdge*>::iterator eiter = wedges.begin(); eiter != wedges.end(); eiter ++ )
+  for (typename std::list<CEdge*>::iterator eiter = wedges.begin(); eiter != wedges.end(); eiter ++ )
   {
 		CEdge * pE = *eiter;
 
@@ -356,7 +356,7 @@ void CDynamicMesh<CVertex,CEdge,CFace,CHalfEdge>::swapEdge( CEdge * edge )
 /*
   //remove edge from edge list of the original vertex
   std::list<CEdge*>::iterator pos = ledges.end();
-  for( std::list<CEdge*>::iterator eiter = ledges.begin(); eiter != ledges.end(); eiter ++ )
+  for (typename std::list<CEdge*>::iterator eiter = ledges.begin(); eiter != ledges.end(); eiter ++ )
   {
 		CEdge * pE = *eiter;
 		if( pE == edge ) 
@@ -403,7 +403,7 @@ void CDynamicMesh<CVertex,CEdge,CFace,CHalfEdge>::swapEdge( CEdge * edge )
 		  }
 		  std::cout << std::endl;
 
-		  for( std::list<CEdge*>::iterator eiter = ledges.begin(); eiter != ledges.end(); eiter ++ )
+		  for (typename std::list<CEdge*>::iterator eiter = ledges.begin(); eiter != ledges.end(); eiter ++ )
 		  {
 			  CEdge * e = *eiter;
 			  CVertex * v1 = edgeVertex1( e );
@@ -413,7 +413,7 @@ void CDynamicMesh<CVertex,CEdge,CFace,CHalfEdge>::swapEdge( CEdge * edge )
 
 		  std::cout << " Edge list " << std::endl;
 
-		  for( std::list<CEdge*>::iterator eiter = wedges.begin(); eiter != wedges.end(); eiter ++ )
+		  for (typename std::list<CEdge*>::iterator eiter = wedges.begin(); eiter != wedges.end(); eiter ++ )
 		  {
 			  CEdge * e = *eiter;
 			  CVertex * v1 = edgeVertex1( e );
@@ -895,7 +895,7 @@ void CDynamicMesh<CVertex,CEdge,CFace,CHalfEdge>::read_vef( const char * input )
 		CFace *     f = *fiter;
 		f->_from_string();
 	}
-	for( std::list<CFace*>::iterator fiter=m_faces.begin(); fiter != m_faces.end(); fiter ++ )
+	for (typename std::list<CFace*>::iterator fiter=m_faces.begin(); fiter != m_faces.end(); fiter ++ )
 	{
 		CFace * pF = *fiter;
 		CHalfEdge * pH  = faceMostCcwHalfEdge( pF );
@@ -916,22 +916,22 @@ template<typename CVertex, typename CEdge, typename CFace, typename CHalfEdge>
 void CDynamicMesh<CVertex,CEdge,CFace,CHalfEdge>::write_vef( const char * output )
 {
 	//write traits to string
-	for( std::list<CVertex*>::iterator viter=m_verts.begin(); viter != m_verts.end(); viter ++ )
+	for (typename std::list<CVertex*>::iterator viter=m_verts.begin(); viter != m_verts.end(); viter ++ )
 	{
 		CVertex * pV = *viter;
 		pV->_to_string();
 	}
-	for( std::list<CEdge*>::iterator eiter=m_edges.begin(); eiter != m_edges.end(); eiter ++ )
+	for (typename std::list<CEdge*>::iterator eiter=m_edges.begin(); eiter != m_edges.end(); eiter ++ )
 	{
 		CEdge * pE = *eiter;
 		pE->_to_string();
 	}
-	for( std::list<CFace*>::iterator fiter=m_faces.begin(); fiter != m_faces.end(); fiter ++ )
+	for (typename std::list<CFace*>::iterator fiter=m_faces.begin(); fiter != m_faces.end(); fiter ++ )
 	{
 		CFace * pF = *fiter;
 		pF->_to_string();
 	}
-	for( std::list<CFace*>::iterator fiter=m_faces.begin(); fiter != m_faces.end(); fiter ++ )
+	for (typename std::list<CFace*>::iterator fiter=m_faces.begin(); fiter != m_faces.end(); fiter ++ )
 	{
 		CFace * pF = *fiter;
 		CHalfEdge * pH  = faceMostCcwHalfEdge( pF );
@@ -948,7 +948,7 @@ void CDynamicMesh<CVertex,CEdge,CFace,CHalfEdge>::write_vef( const char * output
 		return;
 	}
 
-	for( std::list<CVertex*>::iterator viter = m_verts.begin(); viter != m_verts.end(); viter ++)
+	for (typename std::list<CVertex*>::iterator viter = m_verts.begin(); viter != m_verts.end(); viter ++)
 	{
 		tVertex v = *viter;
 		_os << "Vertex " << v->id();
@@ -962,7 +962,7 @@ void CDynamicMesh<CVertex,CEdge,CFace,CHalfEdge>::write_vef( const char * output
 		}
 		_os << std::endl;
 	}
-	for( std::list<CEdge*>::iterator eiter = m_edges.begin(); eiter != m_edges.end(); eiter ++ )
+	for (typename std::list<CEdge*>::iterator eiter = m_edges.begin(); eiter != m_edges.end(); eiter ++ )
 	{
 		tEdge e = *eiter;
 		_os << "Edge "<<  e->id() << " " << edgeVertex1(e)->id() <<" " << edgeVertex2(e)->id() << " ";
@@ -972,7 +972,7 @@ void CDynamicMesh<CVertex,CEdge,CFace,CHalfEdge>::write_vef( const char * output
 		}
 		_os << std::endl;
 	}
-	for( std::list<CFace*>::iterator fiter = m_faces.begin(); fiter != m_faces.end(); fiter ++ )
+	for (typename std::list<CFace*>::iterator fiter = m_faces.begin(); fiter != m_faces.end(); fiter ++ )
 	{
 		tFace f = *fiter;
 		_os << "Face " << f->id();
@@ -991,7 +991,7 @@ void CDynamicMesh<CVertex,CEdge,CFace,CHalfEdge>::write_vef( const char * output
 		}
 		_os << std::endl;
 	}
-	for( std::list<CFace*>::iterator fiter = m_faces.begin(); fiter != m_faces.end(); fiter ++  )
+	for (typename std::list<CFace*>::iterator fiter = m_faces.begin(); fiter != m_faces.end(); fiter ++  )
 	{
 		tFace f = *fiter;
 		tHalfEdge he = faceHalfedge( f );

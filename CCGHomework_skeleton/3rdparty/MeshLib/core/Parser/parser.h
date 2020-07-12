@@ -123,7 +123,7 @@ public:
 	{
 	  //release all the tokens
 
-	  for( std::list<CToken*>::iterator titer = m_tokens.begin(); titer != m_tokens.end(); titer ++ )
+	  for (typename std::list<CToken*>::iterator titer = m_tokens.begin(); titer != m_tokens.end(); titer ++ )
 	  {
 		  CToken * pT = *titer;
 		  delete pT;
@@ -144,7 +144,7 @@ public:
 	{
 		std::stringstream iss;
 
-		for( std::list<CToken*>::iterator iter = m_tokens.begin() ; iter != m_tokens.end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = m_tokens.begin() ; iter != m_tokens.end(); ++ iter )
 		{
 			  CToken * token = *iter;
 			  if( iss.str().length() > 0 ) iss << " ";
@@ -166,7 +166,7 @@ public:
 	 */
 	void _removeToken( const std::string & key )	
 	{
-		for( std::list<CToken*>::iterator iter = m_tokens.begin() ; iter != m_tokens.end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = m_tokens.begin() ; iter != m_tokens.end(); ++ iter )
 		{
 			  CToken * token = *iter;
 			  if( token->m_key == key )

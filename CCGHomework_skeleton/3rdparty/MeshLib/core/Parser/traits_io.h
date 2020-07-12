@@ -48,7 +48,7 @@ void _read_vertex_target_k( M * pMesh )
 		V * pV = *viter;
 		CParser parser( pV->string() );
 		
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "k" )
@@ -119,7 +119,7 @@ void _read_vertex_uv( M * pMesh )
 		V * pV = *viter;
 		CParser parser( pV->string() );
 		
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "uv" )
@@ -140,7 +140,7 @@ void __read_vertex_uv( M * pMesh )
 		M::CVertex * pV = *viter;
 		CParser parser( pV->string() );
 		
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "uv" )
@@ -161,7 +161,7 @@ void _read_vertex_z( M * pMesh )
 		V * pV = *viter;
 		CParser parser( pV->string() );
 		
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "z" )
@@ -184,7 +184,7 @@ void _read_vertex_huv( M * pMesh )
 		M::CVertex * pV = *viter;
 		CParser parser( pV->string() );
 		
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "uv" )
@@ -205,7 +205,7 @@ void _read_vertex_father( M * pMesh )
 		V * pV = *viter;
 		CParser parser( pV->string() );
 		
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "father" )
@@ -225,7 +225,7 @@ void _read_vertex_father_trait( M * pMesh )
 		M::CVertex * pV = *viter;
 		CParser parser( pV->string() );
 		
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "father" )
@@ -246,7 +246,7 @@ void _read_vertex_mu( M * pMesh )
 		V * pV = *viter;
 		CParser parser( pV->string() );
 		
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "mu" )
@@ -267,7 +267,7 @@ void _read_vertex_normal( M * pMesh )
 		V * pV = *viter;
 		CParser parser( pV->string() );
 		
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "normal" )
@@ -291,7 +291,7 @@ bool __read_vertex_normal( M * pMesh )
 		typename M::CVertex * pV = *viter;
 		CParser parser( pV->string() );
 		
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "normal" )
@@ -315,7 +315,7 @@ void _read_vertex_rgb( M * pMesh )
 		V * pV = *viter;
 		CParser parser( pV->string() );
 		
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "rgb" )
@@ -336,7 +336,7 @@ void _read_vertex_rgb_trait( M * pMesh )
 		M::CVertex * pV = *viter;
 		CParser parser( pV->string() );
 		
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "rgb" )
@@ -358,7 +358,7 @@ void _read_edge_length( M * pMesh )
 
 		CParser parser( pE->string() );
 
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "l" )
@@ -379,7 +379,7 @@ void _read_edge_length_trait( M * pMesh )
 
 		CParser parser( pE->string() );
 
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "l" )
@@ -401,7 +401,7 @@ void _read_edge_sharp( M * pMesh )
 		CParser parser( pE->string() );
 		pE->sharp() = false;
 
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "sharp" )
@@ -706,7 +706,7 @@ void _read_face_mu( M * pMesh )
 		M::CFace * pF = *fiter;
 		CParser parser( pF->string() );
 		
-		for( std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
+		for (typename std::list<CToken*>::iterator iter = parser.tokens().begin() ; iter != parser.tokens().end(); ++ iter )
 		{
 		  CToken * token = *iter;
 		  if( token->m_key == "mu" )

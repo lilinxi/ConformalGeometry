@@ -31,6 +31,5 @@ message(STATUS "    libraries: ${FREEGLUT_LIBRARY_DIRS}")
 message(STATUS "    include path: ${FREEGLUT_INCLUDE_DIR}")
 include_directories(${FREEGLUT_INCLUDE_DIR})
 
-include_directories("include")
 add_subdirectory("cutgraph")
 

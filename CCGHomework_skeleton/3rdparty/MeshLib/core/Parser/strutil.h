@@ -51,14 +51,14 @@ inline std::string trim(const std::string& str, const std::string & delimitor)
 inline	std::string toLower(const std::string& str)
 {
     string t = str;
-    transform(t.begin(), t.end(), t.begin(), tolower);
+    transform(t.begin(), t.end(), t.begin(), ::tolower);
     return t;
 };
 
 inline  std::string toUpper(const std::string& str)
 {
     string t = str;
-    transform(t.begin(), t.end(), t.begin(), toupper);
+    transform(t.begin(), t.end(), t.begin(), ::toupper);
     return t;
 };
 
