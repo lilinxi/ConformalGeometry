@@ -1,5 +1,6 @@
 #include <queue>
 #include "CutGraph.h"
+#include <iostream>
 
 void MeshLib::CCutGraph::cut_graph() {
     _dual_spanning_tree();
@@ -11,7 +12,7 @@ void MeshLib::CCutGraph::cut_graph() {
         pE->sharp() = !pE->sharp();
     }
 
-    _prune();
+    while (_prune());
 }
 
 /*----------------------------------------------------------------------------
@@ -58,14 +59,18 @@ void MeshLib::CCutGraph::_dual_spanning_tree() {
                     //TODO: insert your code here
                     pSymFace->touched() = true;
                     fQueue.push(pSymFace);
-                    for (CCutGraphMesh::FaceEdgeIterator eiter(pF); !eiter.end(); ++eiter) {
-                        CCutGraphEdge *pE = *eiter;
-                        pE->sharp() = true;
-                    }
-                    for (CCutGraphMesh::FaceEdgeIterator eiter(pSymFace); !eiter.end(); ++eiter) {
-                        CCutGraphEdge *pE = *eiter;
-                        pE->sharp() = false;
-                    }
+//                    for (CCutGraphMesh::FaceEdgeIterator eiter(pSymFace); !eiter.end(); ++eiter) {
+//                        CCutGraphEdge *pE = *eiter;
+//                        pE->sharp() = false;
+//                    }
+//                    ((CCutGraphEdge *) pSymH->edge())->sharp() = !((CCutGraphEdge *) pSymH->edge())->sharp();
+//                    ((CCutGraphEdge *) pH->edge())->sharp() = !((CCutGraphEdge *) pH->edge())->sharp();
+                    ((CCutGraphEdge *) pSymH->edge())->sharp() = true;
+
+//                    for (CCutGraphMesh::FaceEdgeIterator eiter(pF); !eiter.end(); ++eiter) {
+//                        CCutGraphEdge *pE = *eiter;
+//                        pE->sharp() = true;
+//                    }
                     //TODO: insert your code here
                 }
             }
@@ -80,7 +85,7 @@ Modify the method _CCutGraph::_prune()
 ------------------------------------------------------------------------------*/
 
 //prune的规则是，在初始生成的cut graph上，不断把valence=1的vertex及其上的edge去除，最终结果是prune的输出
-void MeshLib::CCutGraph::_prune() {
+bool MeshLib::CCutGraph::_prune() {
     // A queue used to store valence-1 vertices
     std::queue<CCutGraphVertex *> vQueue;
 
@@ -92,13 +97,18 @@ void MeshLib::CCutGraph::_prune() {
         for (CCutGraphMesh::VertexEdgeIterator veiter(pV); !veiter.end(); ++veiter) {
             CCutGraphEdge *pE = *veiter;
             //TODO: insert your code here
-            pV->valence()++;
+            if (pE->sharp()) {
+                pV->valence()++;
+            }
             //TODO: insert your code here
         }
 
         if (pV->valence() == 1)
             vQueue.push(pV);
     }
+
+    int size = vQueue.size();
+    std::cout << vQueue.size() << std::endl;
 
     // 2. Remove the segments which attached to valence-1 vertices.
     while (!vQueue.empty()) {
@@ -117,4 +127,5 @@ void MeshLib::CCutGraph::_prune() {
             }
         }
     }
+    return  size> 0;
 }

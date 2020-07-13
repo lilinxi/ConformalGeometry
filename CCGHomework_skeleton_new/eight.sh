@@ -1,0 +1,1 @@
+./cmake-build-debug/cutgraph/CutGraph /Users/limengfan/ConformalGeometry/CCGHomework_skeleton_new/data/eight.m
