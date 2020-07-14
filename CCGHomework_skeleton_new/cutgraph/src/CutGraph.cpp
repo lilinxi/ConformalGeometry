@@ -59,18 +59,7 @@ void MeshLib::CCutGraph::_dual_spanning_tree() {
                     //TODO: insert your code here
                     pSymFace->touched() = true;
                     fQueue.push(pSymFace);
-//                    for (CCutGraphMesh::FaceEdgeIterator eiter(pSymFace); !eiter.end(); ++eiter) {
-//                        CCutGraphEdge *pE = *eiter;
-//                        pE->sharp() = false;
-//                    }
-//                    ((CCutGraphEdge *) pSymH->edge())->sharp() = !((CCutGraphEdge *) pSymH->edge())->sharp();
-//                    ((CCutGraphEdge *) pH->edge())->sharp() = !((CCutGraphEdge *) pH->edge())->sharp();
                     ((CCutGraphEdge *) pSymH->edge())->sharp() = true;
-
-//                    for (CCutGraphMesh::FaceEdgeIterator eiter(pF); !eiter.end(); ++eiter) {
-//                        CCutGraphEdge *pE = *eiter;
-//                        pE->sharp() = true;
-//                    }
                     //TODO: insert your code here
                 }
             }
