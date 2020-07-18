@@ -61,7 +61,7 @@ class CHarmonicMap
      * \param c third edge length
      * \return angle between 1st and 2nd edges
      */
-    double _inverse_cosine_law(double a, double b, double c);
+    static double _inverse_cosine_law(double a, double b, double c);
   protected:
     /*!
      * The input surface mesh
