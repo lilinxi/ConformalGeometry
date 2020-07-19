@@ -225,6 +225,7 @@ void MeshLib::CHarmonicMap::_calculate_edge_weight() {
         M::CEdge *pE = *eiter;
         //set cotangent edge weight
         //TODO insert your code here
+//        算的实际是对偶边的权重
         double hE0 = ((M::CHalfEdge *) pE->halfedge(0))->angle();
         pE->weight() += 1 / tan(hE0);
         if (!pE->boundary()) {
