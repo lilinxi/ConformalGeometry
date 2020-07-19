@@ -106,6 +106,7 @@ void MeshLib::CHarmonicMap::map() {
     int boundary_vertices = bid;
 
     // 2. Set the matrix A and B
+//    Triplet 记录行、列、值，创建稀疏矩阵
     std::vector<Eigen::Triplet<double>> A_coefficients;
     std::vector<Eigen::Triplet<double>> B_coefficients;
 
@@ -123,15 +124,20 @@ void MeshLib::CHarmonicMap::map() {
             M::CEdge *e = m_pMesh->vertexEdge(pV, pW);
             double w = e->weight();
 
-            //TODO insert your code here
-//            。。。
-            //TODO insert your code here
             //construct one element of the matrix A and B, using
             //Eigen::Triplet<double>(i,j, val)
             //there push_back the triplet to A or B coefficients
+            //TODO insert your code here
+            sw += w;
+            if (pW->boundary()) {
+                B_coefficients.emplace_back(vid, wid, w);
+            } else {
+                A_coefficients.emplace_back(vid, wid, -w);
+            }
+            //TODO insert your code here
         }
         //TODO insert the diagonal element
-//        。。。
+        A_coefficients.emplace_back(vid, vid, sw);
         //TODO insert the diagonal element
     }
 
@@ -139,6 +145,7 @@ void MeshLib::CHarmonicMap::map() {
     A.setZero();
     Eigen::SparseMatrix<double> B(interior_vertices, boundary_vertices);
     B.setZero();
+    std::cout << A_coefficients.size() << ", " << B_coefficients.size() << std::endl;
     A.setFromTriplets(A_coefficients.begin(), A_coefficients.end());
     B.setFromTriplets(B_coefficients.begin(), B_coefficients.end());
 
@@ -234,6 +241,7 @@ void MeshLib::CHarmonicMap::_set_boundary() {
     // 1. get the boundary half edge loop
     M::CBoundary boundary(m_pMesh);
     std::vector<M::CLoop *> &pLs = boundary.loops();
+//    只能接收拓扑圆盘
     if (pLs.size() != 1) {
         std::cerr << "Only topological disk accepted!" << std::endl;
         exit(EXIT_FAILURE);
@@ -257,7 +265,8 @@ void MeshLib::CHarmonicMap::_set_boundary() {
 
         len += m_pMesh->halfedgeEdge(pH)->length();
         double angle = len / sum * 2.0 * M_PI;
-        pV->uv() = CPoint2(cos(angle), sin(angle));
+//        pV->uv() = CPoint2(cos(angle),sin(angle));
+        pV->uv() = CPoint2(sin(angle), cos(angle));
     }
 }
 

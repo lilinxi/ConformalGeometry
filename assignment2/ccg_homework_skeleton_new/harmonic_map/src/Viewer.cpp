@@ -3,7 +3,9 @@
 #include <stdlib.h>
 
 #ifdef MAC_OS
+
 #include <GLUT/glut.h>
+
 #else
 #include <GL/glut.h>
 #endif // MAC_OS
@@ -34,25 +36,22 @@ CHarmonicMapMesh g_mesh;
 CHarmonicMap g_mapper;
 
 /*! setup the object, transform from the world to the object coordinate system */
-void setupObject(void)
-{
+void setupObject(void) {
     double rot[16];
 
     glTranslated(g_obj_trans[0], g_obj_trans[1], g_obj_trans[2]);
     g_obj_rot.convert(rot);
-    glMultMatrixd((GLdouble*) rot);
+    glMultMatrixd((GLdouble *) rot);
 }
 
 /*! the eye is always fixed at world z = +5 */
-void setupEye(void)
-{
+void setupEye(void) {
     glLoadIdentity();
     gluLookAt(0, 0, 5, 0, 0, 0, 0, 1, 0);
 }
 
 /*! setup light */
-void setupLight()
-{
+void setupLight() {
     GLfloat lightOnePosition[4] = {0, 0, 1, 0};
     GLfloat lightTwoPosition[4] = {0, 0, -1, 0};
     glLightfv(GL_LIGHT1, GL_POSITION, lightOnePosition);
@@ -60,23 +59,19 @@ void setupLight()
 }
 
 /*! draw g_mesh */
-void drawMesh()
-{
+void drawMesh() {
     glEnable(GL_LIGHTING);
 
     glLineWidth(1.0);
-    for (CHarmonicMapMesh::MeshFaceIterator fiter(&g_mesh); !fiter.end(); ++fiter)
-    {
+    for (CHarmonicMapMesh::MeshFaceIterator fiter(&g_mesh); !fiter.end(); ++fiter) {
         glBegin(GL_POLYGON);
-        CHarmonicMapFace* pF = *fiter;
-        for (CHarmonicMapMesh::FaceVertexIterator fviter(pF); !fviter.end(); ++fviter)
-        {
-            CHarmonicMapVertex* pV = *fviter;
-            CPoint& p = pV->point();
-            CPoint& rgb = pV->rgb();
+        CHarmonicMapFace *pF = *fiter;
+        for (CHarmonicMapMesh::FaceVertexIterator fviter(pF); !fviter.end(); ++fviter) {
+            CHarmonicMapVertex *pV = *fviter;
+            CPoint &p = pV->point();
+            CPoint &rgb = pV->rgb();
             CPoint n;
-            switch (g_shade_flag)
-            {
+            switch (g_shade_flag) {
                 case 0:
                     n = pF->normal();
                     break;
@@ -93,24 +88,20 @@ void drawMesh()
 }
 
 /*! draw g_mesh */
-void drawUv()
-{
+void drawUv() {
     glEnable(GL_LIGHTING);
 
     glLineWidth(1.0);
     glColor3f(229.0 / 255.0, 162.0 / 255.0, 141.0 / 255.0);
-    for (CHarmonicMapMesh::MeshFaceIterator fiter(&g_mesh); !fiter.end(); ++fiter)
-    {
+    for (CHarmonicMapMesh::MeshFaceIterator fiter(&g_mesh); !fiter.end(); ++fiter) {
         glBegin(GL_POLYGON);
-        CHarmonicMapFace* pF = *fiter;
-        for (CHarmonicMapMesh::FaceVertexIterator fviter(pF); !fviter.end(); ++fviter)
-        {
-            CHarmonicMapVertex* pV = *fviter;
-            CPoint2& uv = pV->uv();
-            CPoint& rgb = pV->rgb();
+        CHarmonicMapFace *pF = *fiter;
+        for (CHarmonicMapMesh::FaceVertexIterator fviter(pF); !fviter.end(); ++fviter) {
+            CHarmonicMapVertex *pV = *fviter;
+            CPoint2 &uv = pV->uv();
+            CPoint &rgb = pV->rgb();
             CPoint n;
-            switch (g_shade_flag)
-            {
+            switch (g_shade_flag) {
                 case 0:
                     n = pF->normal();
                     break;
@@ -128,8 +119,7 @@ void drawUv()
 
 /*! display call back function
  */
-void display()
-{
+void display() {
     /* clear frame buffer */
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     setupLight();
@@ -144,16 +134,15 @@ void display()
         drawMesh();
     if (g_show_uv)
         drawUv();
-    
+
     glPopMatrix();
     glutSwapBuffers();
 }
 
 /*! Called when a "resize" event is received by the window. */
-void reshape(int w, int h)
-{
+void reshape(int w, int h) {
     float ar;
-    
+
     g_win_width = w;
     g_win_height = h;
 
@@ -173,8 +162,7 @@ void reshape(int w, int h)
 }
 
 /*! helper function to remind the user about commands, hot keys */
-void help()
-{
+void help() {
     printf("1  -  Show or hide mesh\n");
     printf("2  -  Show or hide uv\n");
     printf("n  -  Take next one step of iterative method\n");
@@ -188,10 +176,8 @@ void help()
 }
 
 /*! Keyboard call back function */
-void keyBoard(unsigned char key, int x, int y)
-{
-    switch (key)
-    {
+void keyBoard(unsigned char key, int x, int y) {
+    switch (key) {
         case '1':
             // Show or hide mesh
             g_show_mesh = !g_show_mesh;
@@ -237,8 +223,7 @@ void keyBoard(unsigned char key, int x, int y)
 }
 
 /*! setup GL states */
-void setupGLstate()
-{
+void setupGLstate() {
     GLfloat lightOneColor[] = {1, 1, 1, 1.0};
     GLfloat globalAmb[] = {.1, .1, .1, 1};
     GLfloat lightOnePosition[] = {.0, 0.0, 1.0, 1.0};
@@ -280,29 +265,25 @@ void setupGLstate()
 }
 
 /*! mouse click call back function */
-void mouseClick(int button, int state, int x, int y)
-{
+void mouseClick(int button, int state, int x, int y) {
     /* set up an arcball around the Eye's center
     switch y coordinates to right handed system  */
 
-    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
-    {
+    if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
         g_button = GLUT_LEFT_BUTTON;
-        g_arcball = CArcball(g_win_width, 
-                             g_win_height, 
-                             x - g_win_width / 2, 
+        g_arcball = CArcball(g_win_width,
+                             g_win_height,
+                             x - g_win_width / 2,
                              g_win_height - y - g_win_height / 2);
     }
 
-    if (button == GLUT_MIDDLE_BUTTON && state == GLUT_DOWN)
-    {
+    if (button == GLUT_MIDDLE_BUTTON && state == GLUT_DOWN) {
         g_startx = x;
         g_starty = y;
         g_button = GLUT_MIDDLE_BUTTON;
     }
 
-    if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN)
-    {
+    if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
         g_startx = x;
         g_starty = y;
         g_button = GLUT_RIGHT_BUTTON;
@@ -311,22 +292,19 @@ void mouseClick(int button, int state, int x, int y)
 }
 
 /*! mouse motion call back function */
-void mouseMove(int x, int y)
-{
+void mouseMove(int x, int y) {
     CPoint trans;
     CQrot rot;
 
     /* rotation, call g_arcball */
-    if (g_button == GLUT_LEFT_BUTTON)
-    {
+    if (g_button == GLUT_LEFT_BUTTON) {
         rot = g_arcball.update(x - g_win_width / 2, g_win_height - y - g_win_height / 2);
         g_obj_rot = rot * g_obj_rot;
         glutPostRedisplay();
     }
 
     /*xy translation */
-    if (g_button == GLUT_MIDDLE_BUTTON)
-    {
+    if (g_button == GLUT_MIDDLE_BUTTON) {
         double scale = 10. / g_win_height;
         trans = CPoint(scale * (x - g_startx), scale * (g_starty - y), 0);
         g_startx = x;
@@ -336,8 +314,7 @@ void mouseMove(int x, int y)
     }
 
     /* zoom in and out */
-    if (g_button == GLUT_RIGHT_BUTTON)
-    {
+    if (g_button == GLUT_RIGHT_BUTTON) {
         double scale = 10. / g_win_height;
         trans = CPoint(0, 0, scale * (g_starty - y));
         g_startx = x;
@@ -350,38 +327,32 @@ void mouseMove(int x, int y)
 /*! Normalize g_mesh
  * \param pMesh the input g_mesh
  */
-void normalizeMesh(CHarmonicMapMesh* pMesh)
-{
+void normalizeMesh(CHarmonicMapMesh *pMesh) {
     CPoint s(0, 0, 0);
-    for (CHarmonicMapMesh::MeshVertexIterator viter(pMesh); !viter.end(); ++viter)
-    {
-        CHarmonicMapVertex* v = *viter;
+    for (CHarmonicMapMesh::MeshVertexIterator viter(pMesh); !viter.end(); ++viter) {
+        CHarmonicMapVertex *v = *viter;
         s = s + v->point();
     }
     s = s / pMesh->numVertices();
 
-    for (CHarmonicMapMesh::MeshVertexIterator viter(pMesh); !viter.end(); ++viter)
-    {
-        CHarmonicMapVertex* v = *viter;
+    for (CHarmonicMapMesh::MeshVertexIterator viter(pMesh); !viter.end(); ++viter) {
+        CHarmonicMapVertex *v = *viter;
         CPoint p = v->point();
         p = p - s;
         v->point() = p;
     }
 
     double d = 0;
-    for (CHarmonicMapMesh::MeshVertexIterator viter(pMesh); !viter.end(); ++viter)
-    {
-        CHarmonicMapVertex* v = *viter;
+    for (CHarmonicMapMesh::MeshVertexIterator viter(pMesh); !viter.end(); ++viter) {
+        CHarmonicMapVertex *v = *viter;
         CPoint p = v->point();
-        for (int k = 0; k < 3; k++)
-        {
+        for (int k = 0; k < 3; k++) {
             d = (d > fabs(p[k])) ? d : fabs(p[k]);
         }
     }
 
-    for (CHarmonicMapMesh::MeshVertexIterator viter(pMesh); !viter.end(); ++viter)
-    {
-        CHarmonicMapVertex* v = *viter;
+    for (CHarmonicMapMesh::MeshVertexIterator viter(pMesh); !viter.end(); ++viter) {
+        CHarmonicMapVertex *v = *viter;
         CPoint p = v->point();
         p = p / d;
         v->point() = p;
@@ -391,25 +362,21 @@ void normalizeMesh(CHarmonicMapMesh* pMesh)
 /*! Compute the face normal and vertex normal
  * \param pMesh the input g_mesh
  */
-void computeNormal(CHarmonicMapMesh* pMesh)
-{
-    for (CHarmonicMapMesh::MeshVertexIterator viter(pMesh); !viter.end(); ++viter)
-    {
-        CHarmonicMapVertex* v = *viter;
+void computeNormal(CHarmonicMapMesh *pMesh) {
+    for (CHarmonicMapMesh::MeshVertexIterator viter(pMesh); !viter.end(); ++viter) {
+        CHarmonicMapVertex *v = *viter;
         CPoint n(0, 0, 0);
-        for (CHarmonicMapMesh::VertexFaceIterator vfiter(v); !vfiter.end(); ++vfiter)
-        {
-            CHarmonicMapFace* pF = *vfiter;
+        for (CHarmonicMapMesh::VertexFaceIterator vfiter(v); !vfiter.end(); ++vfiter) {
+            CHarmonicMapFace *pF = *vfiter;
 
             CPoint p[3];
-            CHalfEdge* he = pF->halfedge();
-            for (int k = 0; k < 3; k++)
-            {
+            CHalfEdge *he = pF->halfedge();
+            for (int k = 0; k < 3; k++) {
                 p[k] = he->target()->point();
                 he = he->he_next();
             }
 
-            CPoint fn = (p[1] - p[0]) ^ (p[2] - p[0]);
+            CPoint fn = (p[1] - p[0]) ^(p[2] - p[0]);
             pF->normal() = fn / fn.norm();
             n += fn;
         }
@@ -419,8 +386,7 @@ void computeNormal(CHarmonicMapMesh* pMesh)
     }
 };
 
-void initOpenGL(int argc, char* argv[])
-{
+void initOpenGL(int argc, char *argv[]) {
     /* glut stuff */
     glutInit(&argc, argv); /* Initialize GLUT */
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
@@ -440,21 +406,16 @@ void initOpenGL(int argc, char* argv[])
 
 /*! main function for viewer
  */
-int main(int argc, char* argv[])
-{
-    if (argc < 2)
-    {
+int main(int argc, char *argv[]) {
+    if (argc < 2) {
         printf("Usage: %s input.m\n", argv[0]);
         return EXIT_FAILURE;
     }
 
     std::string mesh_name(argv[1]);
-    if (strutil::endsWith(mesh_name, ".m"))
-    {
+    if (strutil::endsWith(mesh_name, ".m")) {
         g_mesh.read_m(mesh_name.c_str());
-    }
-    else
-    {
+    } else {
         printf("Only file format .m supported.\n");
         return EXIT_FAILURE;
     }
