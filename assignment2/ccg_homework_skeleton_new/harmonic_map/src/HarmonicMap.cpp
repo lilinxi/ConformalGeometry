@@ -225,7 +225,7 @@ void MeshLib::CHarmonicMap::_calculate_edge_weight() {
         M::CEdge *pE = *eiter;
         //set cotangent edge weight
         //TODO insert your code here
-//        算的实际是对偶边的权重
+//        p108：算的实际是对偶边的权重：这个定义就是保证了和连续情况的相容性（单位体积元映射到单位体积元）
         double hE0 = ((M::CHalfEdge *) pE->halfedge(0))->angle();
         pE->weight() += 1 / tan(hE0);
         if (!pE->boundary()) {
