@@ -37,6 +37,10 @@ namespace MeshLib {
         */
         double &area() { return m_area; };
 
+        CPoint deltaU; // 保存 delta，事后计算步长
+
+        CPoint delta_u; // 保存 delta，事后计算步长
+
     protected:
 
         /*! Vertex spherical harmonic map image coordinates */

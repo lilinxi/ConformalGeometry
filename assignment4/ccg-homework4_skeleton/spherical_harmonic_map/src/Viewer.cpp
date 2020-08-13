@@ -330,13 +330,13 @@ void normalizeMesh(CSHMMesh *pMesh) {
         CSHMMesh::CVertex *v = *viter;
         s = s + v->point();
     }
-    s = s / pMesh->numVertices();
+    s = s / pMesh->numVertices(); // 计算重心
 
     for (CSHMMesh::MeshVertexIterator viter(pMesh); !viter.end(); ++viter) {
         CSHMMesh::CVertex *v = *viter;
         CPoint p = v->point();
         p = p - s;
-        v->point() = p;
+        v->point() = p; // 减去重心，使重心为（0，0，0）
     }
 
     double d = 0;
@@ -344,7 +344,7 @@ void normalizeMesh(CSHMMesh *pMesh) {
         CSHMMesh::CVertex *v = *viter;
         CPoint p = v->point();
         for (int k = 0; k < 3; k++) {
-            d = (d > fabs(p[k])) ? d : fabs(p[k]);
+            d = (d > fabs(p[k])) ? d : fabs(p[k]); // 寻找 xyz 中最大的一个维度
         }
     }
 
@@ -352,7 +352,7 @@ void normalizeMesh(CSHMMesh *pMesh) {
         CSHMMesh::CVertex *v = *viter;
         CPoint p = v->point();
         p = p / d;
-        v->point() = p;
+        v->point() = p; // 归一化
     }
 };
 
@@ -425,8 +425,8 @@ int main(int argc, char *argv[]) {
         return EXIT_FAILURE;
     }
 
-    normalizeMesh(&g_mesh);
-    computeNormal(&g_mesh);
+    normalizeMesh(&g_mesh); // 正则化一下网格模型
+    computeNormal(&g_mesh);// 计算点和面片的面积和法线方向，点的面积和法线为周围相连接面片的加权平均
 
     g_mapper.set_mesh(&g_mesh);
 

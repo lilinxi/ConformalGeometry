@@ -16,7 +16,7 @@ void MeshLib::CSphericalHarmonicMap::set_mesh(CSHMMesh *pMesh) {
     using M = CSHMMesh;
     for (M::MeshVertexIterator viter(m_pMesh); !viter.end(); ++viter) {
         M::CVertex *pV = *viter;
-        pV->u() = pV->normal();
+        pV->u() = pV->normal(); // 高斯 Map
     }
 }
 
@@ -65,19 +65,61 @@ double MeshLib::CSphericalHarmonicMap::step_one(int steps, double step_length) {
         for (M::MeshVertexIterator viter(m_pMesh); !viter.end(); ++viter) {
             M::CVertex *pV = *viter;
             // TODO insert your code here
-
             // 1. compute vertex laplacian
-            // 2. get the noraml component
+            CPoint laplacian(0, 0, 0);
+            double totalWeight = 0.0;
+            for (M::VertexVertexIterator vviter(pV); !vviter.end(); ++vviter) {
+                M::CVertex *pW = *vviter;
+                M::CEdge *e = m_pMesh->vertexEdge(pV, pW);
+                double w = e->weight();
+                laplacian = laplacian + (pW->u() - pV->u()) * w;
+                totalWeight += w;
+            }
+            laplacian = laplacian / totalWeight;
+            // 2. get the normal component
+            CPoint normal = pV->u() * (laplacian * pV->u());
             // 3. get the tangent_component
+            CPoint tangent = laplacian - normal;
+
+            pV->deltaU = tangent;// 先保存 deltaU，事后计算步长
+
             // 4. update u
+//            CPoint u = pV->u() + tangent * step_length;
             // 5. normalize the vertex->u() to the unit sphere
+//            pV->u() = u / u.norm();
             // TODO insert your code here
         }
+        // TODO insert your code here
+        // 使用线性搜索方法重新计算步长，能量导数为 0
+
+        // 计算步长
+        double upper = 0.0; // 分子
+        double lower = 0.0; // 分母
+        for (M::MeshEdgeIterator eiter(m_pMesh); !eiter.end(); ++eiter) {
+            M::CEdge *pE = *eiter;
+            M::CVertex *pV = m_pMesh->edgeVertex1(pE);
+            M::CVertex *pW = m_pMesh->edgeVertex2(pE);
+            CPoint d = pV->u() - pW->u();
+            CPoint dd = pV->deltaU - pW->deltaU;
+            upper -= pE->weight() * (d * dd);
+            lower += pE->weight() * (dd * dd);
+        }
+        double lambda = upper / lower;
+
+        for (M::MeshVertexIterator viter(m_pMesh); !viter.end(); ++viter) {
+            M::CVertex *pV = *viter;
+            // 4. update u
+            pV->u() += pV->deltaU * lambda;
+            // 5. normalize the vertex->u() to the unit sphere
+            pV->u() /= pV->u().norm();
+        }
+        // TODO insert your code here
     }
     // TODO insert your code here
     // 6. normalize the mapping, such that mass center is at the origin
-    // 7. compute the harmonic energy
+    this->_normalize();
     // TODO insert your code here
+    // 7. compute the harmonic energy
     double E = _calculate_harmonic_energy();
     std::cout << "After " << steps << " steps, harmonic energy is " << E << std::endl;
     return E;
@@ -94,7 +136,7 @@ void MeshLib::CSphericalHarmonicMap::map(double step_length, double epsilon) {
     while (true) {
         E = step_one(10, step_length);
 
-        if (std::fabs(E - E_prev) < epsilon) break;
+        if (std::fabs(E - E_prev) < epsilon) break; // 能量不在减少时终止迭代
         E_prev = E;
     };
 }
@@ -155,7 +197,7 @@ double MeshLib::CSphericalHarmonicMap::_calculate_harmonic_energy() {
         M::CVertex *pV = m_pMesh->edgeVertex1(pE);
         M::CVertex *pW = m_pMesh->edgeVertex2(pE);
         CPoint d = pV->u() - pW->u();
-        energy += pE->weight() * (d * d);
+        energy += pE->weight() * (d * d);// weight of edge * d * d
     }
     return energy;
 }
@@ -174,7 +216,19 @@ void MeshLib::CSphericalHarmonicMap::_normalize() {
 
     // TODO insert your code here
     //move the mass center of vertex->u() to the origin
+    for (M::MeshVertexIterator viter(m_pMesh); !viter.end(); ++viter) {
+        M::CVertex *pV = *viter;
+        center = center + pV->u() * pV->area();
+        area += pV->area();
+    }
+    center = center / area; // 计算重心
+
+    for (CSHMMesh::MeshVertexIterator viter(m_pMesh); !viter.end(); ++viter) {
+        CSHMMesh::CVertex *pV = *viter;
+        CPoint u = pV->u();
+        u = u - center;
+        u = u / u.norm();
+        pV->u() = u; // 减去重心，使重心为（0，0，0）
+    }
     // TODO insert your code here
-
-
 }
