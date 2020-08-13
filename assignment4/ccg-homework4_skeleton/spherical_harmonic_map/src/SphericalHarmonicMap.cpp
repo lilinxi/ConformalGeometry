@@ -75,7 +75,7 @@ double MeshLib::CSphericalHarmonicMap::step_one(int steps, double step_length) {
                 laplacian = laplacian + (pW->u() - pV->u()) * w;
                 totalWeight += w;
             }
-            laplacian = laplacian / totalWeight;
+            laplacian = laplacian / totalWeight; // 对拉普拉斯算子归一化，使迭代更稳定
             // 2. get the normal component
             CPoint normal = pV->u() * (laplacian * pV->u());
             // 3. get the tangent_component
